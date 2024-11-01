@@ -61,25 +61,24 @@ def detai_appartement(chaque_annonce):
 
     with open("information_appartement.csv", mode="w", newline='', encoding='utf-8') as f:
         write = csv.writer(f)
-        write.writerow(['titre','localisation', 'secteur','prix', 'surface', 'nombre_chambre', 'salles_de_bain', 'etage', 'annee_construction'])
+        write.writerow(['Title','Price','Location','Surface','Rooms','Bathrooms','Floor','Construction Year'])
 
         for chaque in chaque_annonce:
             driver.get(chaque)
             time.sleep(3)
 
             try:
-                titre = fun_xpath("//*[@id='__next']/div/main/div/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/h1")
-                localisation = fun_xpath("//*[@id='__next']/div/main/div/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/span[1]")
-                secteur = fun_xpath("//span[text()='Secteur']/following-sibling::span")
-                prix = fun_xpath('//*[@id="__next"]/div/main/div/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/p')
+                Title = fun_xpath("//*[@id='__next']/div/main/div/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/h1")
+                Location = fun_xpath("//*[@id='__next']/div/main/div/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[2]/span[1]")
+                Price = fun_xpath('//*[@id="__next"]/div/main/div/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/p')
 
-                surface = fun_xpath("//*[@id='__next']/div/main/div/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/div[4]/div[2]/ol/li[3]/span[2]")
-                etage = fun_xpath("//*[@id='__next']/div/main/div/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[2]/ol/li[6]/span[2]")
-                nombre_chambre = fun_xpath('//*[@id="__next"]/div/main/div/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/div[4]/div[1]/div[1]/div/span')
-                nombre_salle_bain = fun_xpath('//*[@id="__next"]/div/main/div/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/div[4]/div[1]/div[2]/div/span')
-                annee_construction = fun_xpath("//span[contains(text(), 'Année de construction')]/following-sibling::span")
+                Surface = fun_xpath("//li[.//span[text()='Surface habitable']]/span[@class='sc-1x0vz2r-0 gSLYtF']")
+                Floor = fun_xpath("//li[.//span[text()='Étage']]/span[@class='sc-1x0vz2r-0 gSLYtF']")
+                Rooms = fun_xpath('//[@id="__next"]/div/main/div/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/div[4]/div[1]/div[1]/div/span')
+                Bathrooms = fun_xpath('//*[@id="__next"]/div/main/div/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/div[4]/div[1]/div[2]/div/span')
+                Construction_Year = fun_xpath("//li[.//span[text()='Âge du bien']]/span[@class='sc-1x0vz2r-0 gSLYtF']")
                 
-                write.writerow([titre, localisation,secteur ,prix, surface, nombre_chambre, nombre_salle_bain, etage, annee_construction])
+                write.writerow([Title, Location,Price ,Surface, Floor, Floor, Rooms,Bathrooms, Construction_Year])
             except Exception as e:
                 print(f"Erreur lors de  details de l'annonce : {e}")
 
@@ -91,7 +90,7 @@ def fun_xpath(xpath):
 
 # Pour executer les fonctions en test
 try:
-    pages = ChargeLien_Page(2)
+    pages = ChargeLien_Page(3)
     annonces = lienChauqueAppartement(pages)
     detai_appartement(annonces)
 finally:
